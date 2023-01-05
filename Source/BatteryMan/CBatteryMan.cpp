@@ -30,7 +30,7 @@ ACBatteryMan::ACBatteryMan()
 
 	// Note: For faster iteration times these variables, and many more, can be tweaked in the Character Blueprint
 	// instead of recompiling to adjust them
-	GetCharacterMovement()->JumpZVelocity = 700.f;
+	GetCharacterMovement()->JumpZVelocity = 350.f;
 	GetCharacterMovement()->AirControl = 0.35f;
 	GetCharacterMovement()->MaxWalkSpeed = 500.f;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
@@ -78,6 +78,7 @@ void ACBatteryMan::SetupPlayerInputComponent(class UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
+		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Triggered, this,&ACBatteryMan::Dash);
 		//Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACBatteryMan::Move);
 
@@ -122,6 +123,12 @@ void ACBatteryMan::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void ACBatteryMan::Dash(const FInputActionValue& Value)
+{
+	// Debug log output to confirm that the handler function is running.
+        UE_LOG(LogTemp, Warning, TEXT("%s called with Input Action Value %s (magnitude %f)"),  *Value.ToString(), Value.GetMagnitude());
 }
 
 
